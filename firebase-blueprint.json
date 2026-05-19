@@ -1,0 +1,88 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "An automotive part listed in the catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "number" },
+        "name": { "type": "string" },
+        "sku": { "type": "string" },
+        "price": { "type": "number" },
+        "image": { "type": "string" },
+        "category": { "type": "string" },
+        "brand": { "type": "string" },
+        "badge": { "type": "string" },
+        "rating": { "type": "number" },
+        "quantity": { "type": "number" },
+        "instock": { "type": "boolean" },
+        "description": { "type": "string" },
+        "compatibleVehicles": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["name", "sku", "price", "category", "brand", "quantity", "instock"]
+    },
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "A vehicle model for compatibility matching",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "make": { "type": "string" },
+        "model": { "type": "string" },
+        "year": { "type": "string" },
+        "engine": { "type": "string" }
+      },
+      "required": ["make", "model", "year", "engine"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer purchase order",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "phone": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "discountPercent": { "type": "number" },
+        "totalAfterDiscount": { "type": "number" },
+        "status": { "type": "string", "enum": ["new", "processed"] },
+        "created": { "type": "string", "format": "date-time" },
+        "items": { "type": "array" }
+      },
+      "required": ["userId", "name", "email", "items", "totalAfterDiscount", "status", "created"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Additional information for a registered user",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "customer"] },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      },
+      "required": ["name", "email", "role"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Storage for automotive parts"
+    },
+    "/vehicles/{vehicleId}": {
+      "schema": "Vehicle",
+      "description": "Compatible vehicle database"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles and settings"
+    }
+  }
+}

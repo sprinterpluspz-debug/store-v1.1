@@ -1,0 +1,6 @@
+{
+  "name": "Remix: SprinterPlus-v1",
+  "description": "Premium car parts store specializing in high-quality components. Features real-time cart management, product filtering, and an admin dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
