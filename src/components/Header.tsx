@@ -77,7 +77,7 @@ export default function Header() {
             <nav className="hidden lg:flex items-center gap-8 text-[13px] font-black uppercase tracking-widest">
               {navLinks.map((link) => (
                 <Link
-                  key={link.name}
+                  key={link.path}
                   to={link.path}
                   className={cn(
                     "hover:text-sky-500 text-zinc-500 transition-all pb-1 border-b-2 border-transparent",
@@ -123,7 +123,7 @@ export default function Header() {
                         <div className="p-2">
                           {suggestions.map((p) => (
                             <button
-                              key={p.id}
+                              key={`suggestion-desktop-${p.id}`}
                               onClick={() => handleSuggestionClick(p)}
                               className="w-full flex items-center gap-3 p-2 hover:bg-zinc-50 rounded-xl transition-all group text-left"
                             >
@@ -285,7 +285,7 @@ export default function Header() {
                       <div className="p-2">
                         {suggestions.map((p) => (
                           <button
-                            key={p.id}
+                            key={`suggestion-mobile-search-${p.id}`}
                             onClick={() => handleSuggestionClick(p)}
                             className="w-full flex items-center gap-3 p-3 hover:bg-zinc-50 rounded-xl transition-all text-left"
                           >
@@ -368,7 +368,7 @@ export default function Header() {
                       <div className="p-2">
                         {suggestions.map((p) => (
                           <button
-                            key={p.id}
+                            key={`suggestion-mobile-menu-${p.id}`}
                             onClick={() => handleSuggestionClick(p)}
                             className="w-full flex items-center gap-3 p-3 hover:bg-zinc-50 rounded-xl transition-all text-left"
                           >
@@ -396,7 +396,7 @@ export default function Header() {
                     <nav className="flex flex-col gap-2">
                       {navLinks.map((link) => (
                         <Link
-                          key={link.name}
+                          key={link.path}
                           to={link.path}
                           onClick={() => setIsMenuOpen(false)}
                           className={cn(

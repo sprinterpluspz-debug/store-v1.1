@@ -1213,7 +1213,7 @@ export default function Admin() {
                   <div className="p-20 text-center text-zinc-400 font-bold">No users found.</div>
                 ) : (
                   filteredUsers.map(u => (
-                    <div key={u.id || u.email} className="grid grid-cols-[80px_1fr_200px_150px_100px] px-8 py-6 items-center hover:bg-zinc-50 transition-colors group">
+                    <div key={u.id} className="grid grid-cols-[80px_1fr_200px_150px_100px] px-8 py-6 items-center hover:bg-zinc-50 transition-colors group">
                       <div className="w-12 h-12 rounded-2xl bg-zinc-100 text-zinc-400 grid place-items-center font-black text-lg group-hover:bg-sky-500 group-hover:text-white transition-colors">
                         {(u.name?.[0] || u.email?.[0] || '?').toUpperCase()}
                       </div>
@@ -1357,7 +1357,7 @@ export default function Admin() {
                           >
                             <div className="divide-y divide-zinc-100/50">
                               {Object.keys(groupedVehicles[make]).sort().map(series => (
-                                <div key={series} className="flex flex-col">
+                                <div key={`${make}-${series}`} className="flex flex-col">
                                   <button 
                                     onClick={() => toggleModelExpanded(make + '|' + series)}
                                     className="px-12 py-2.5 flex items-center justify-between hover:bg-zinc-100/30 transition-colors"

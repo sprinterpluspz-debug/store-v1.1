@@ -113,23 +113,42 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [users, setUsers] = useState<User[]>([]);
   
   const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(() => {
-    const saved = localStorage.getItem('selected_vehicle');
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem('selected_vehicle');
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      console.error('Failed to parse selected_vehicle from localStorage', e);
+      return null;
+    }
   });
 
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('cart');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Failed to parse cart from localStorage', e);
+      return [];
+    }
   });
 
   const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('lang');
-    return (saved as Language) || 'en';
+    try {
+      const saved = localStorage.getItem('lang');
+      return (saved as Language) || 'en';
+    } catch (e) {
+      return 'en';
+    }
   });
 
   const [recentlyViewed, setRecentlyViewed] = useState<Product[]>(() => {
-    const saved = localStorage.getItem('recently_viewed');
-    return saved ? JSON.parse(saved) : [];
+    try {
+      const saved = localStorage.getItem('recently_viewed');
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error('Failed to parse recently_viewed from localStorage', e);
+      return [];
+    }
   });
 
   // Auth Listener
@@ -193,7 +212,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
       const prods = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as unknown as Product));
-      setProducts(prods);
+      // Deduplicate by ID just in case
+      const uniqueProds = Array.from(new Map(prods.map(p => [p.id, p])).values());
+      setProducts(uniqueProds);
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'products'));
     return () => unsubscribe();
   }, []);
@@ -202,7 +223,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, 'vehicles'), (snapshot) => {
       const vehs = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as unknown as Vehicle));
-      setVehicles(vehs);
+      // Deduplicate by ID
+      const uniqueVehs = Array.from(new Map(vehs.map(v => [v.id, v])).values());
+      setVehicles(uniqueVehs);
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'vehicles'));
     return () => unsubscribe();
   }, []);
@@ -220,7 +243,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const ords = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as unknown as Order));
-      setOrders(ords.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()));
+      // Deduplicate by ID
+      const uniqueOrds = Array.from(new Map(ords.map(o => [o.id, o])).values());
+      setOrders(uniqueOrds.sort((a, b) => new Date(b.created).getTime() - new Date(a.created).getTime()));
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'orders'));
     return () => unsubscribe();
   }, [user]);
@@ -234,7 +259,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
     const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
       const ulist = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as unknown as User));
-      setUsers(ulist);
+      // Deduplicate by ID
+      const uniqueUsers = Array.from(new Map(ulist.map(u => [u.id, u])).values());
+      setUsers(uniqueUsers);
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'users'));
     return () => unsubscribe();
   }, [user]);

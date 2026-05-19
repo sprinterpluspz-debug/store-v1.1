@@ -53,6 +53,7 @@ export interface Order {
 }
 
 export interface User {
+  id?: string;
   email: string;
   name: string;
   role: 'admin' | 'customer';

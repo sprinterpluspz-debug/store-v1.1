@@ -8,6 +8,26 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Diagnostic script for "blank page" issues
+      window.addEventListener('error', function(e) {
+        console.error('Runtime error caught:', e);
+        const root = document.getElementById('root');
+        if (root && root.innerHTML === '') {
+          root.innerHTML = '<div style="padding: 20px; color: red; font-family: sans-serif;">' +
+            '<h3>App failed to load</h3>' +
+            '<p>Check the console for errors. This might be due to a missing dependency or a configuration issue.</p>' +
+            '<pre style="background: #f4f4f4; padding: 10px; border-radius: 5px;">' + (e.message || 'Unknown error') + '</pre>' +
+            '</div>';
+        }
+      });
+      setTimeout(() => {
+        const root = document.getElementById('root');
+        if (root && root.innerHTML === '') {
+          console.warn('App still blank after 5 seconds');
+        }
+      }, 5000);
+    </script>
   </body>
 </html>
 
