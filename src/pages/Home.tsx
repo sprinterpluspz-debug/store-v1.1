@@ -10,6 +10,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 
 import { BRAND_URLS } from '../constants/brandUrls';
+import aftermarketEngineParts from '../assets/images/aftermarket_engine_parts_1779176797468.png';
+import aftermarketBrakes from '../assets/images/aftermarket_brakes_1779176818183.png';
+import aftermarketLighting from '../assets/images/aftermarket_lighting_1779176833786.png';
+import brandsCollageBg from '../assets/images/brands_collage_bg_1779177175774.png';
 
 const CATEGORIES = [
   { name: 'Engine', key: 'catEngine', icon: Cog, descKey: 'catEngineDesc' },
@@ -30,9 +34,9 @@ const STATS = [
 ];
 
 const MAINTENANCE_IMAGES = [
-  '/src/assets/images/aftermarket_engine_parts_1779176797468.png',
-  '/src/assets/images/aftermarket_brakes_1779176818183.png',
-  '/src/assets/images/aftermarket_lighting_1779176833786.png',
+  aftermarketEngineParts,
+  aftermarketBrakes,
+  aftermarketLighting,
 ];
 
 function AutoChangingGallery() {
@@ -395,7 +399,7 @@ export default function Home() {
         <div className="bg-zinc-900 rounded-[48px] overflow-hidden relative group">
           <div className="absolute inset-0">
             <img 
-              src="/src/assets/images/brands_collage_bg_1779177175774.png" 
+              src={brandsCollageBg} 
               alt="EU Warehouse" 
               className="w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700" 
             />
